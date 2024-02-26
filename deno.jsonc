@@ -1,0 +1,46 @@
+{
+  "tasks": {
+    "build": "deno task build:fmt && deno task build:lint && deno task build:mod",
+    "build:mod": "deno run -A mod.ts build",
+    "build:fmt": "deno fmt",
+    "build:lint": "deno lint",
+    "deploy": "deno task build && deno task test && ftm git",
+    "test": "deno test -A tests/tests.ts --parallel --coverage=cov"
+  },
+  "imports": {},
+  "lint": {
+    "include": ["src/"],
+    "exclude": [],
+    "rules": {
+      "tags": ["recommended"],
+      "include": ["ban-untagged-todo"],
+      "exclude": []
+    }
+  },
+  "fmt": {
+    "include": ["src/"],
+    "exclude": [],
+    "indentWidth": 2,
+    "lineWidth": 100,
+    "proseWrap": "preserve",
+    "semiColons": true,
+    "singleQuote": true,
+    "useTabs": false
+  },
+  "unstable": ["kv"],
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns",
+      "deno.window",
+      "deno.unstable"
+    ],
+    "strict": true
+  }
+}
