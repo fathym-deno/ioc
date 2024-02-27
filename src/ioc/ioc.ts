@@ -46,7 +46,7 @@ export class IoCContainer {
         await ioc.RegisterDirect(
           ioc.Symbol(symbol.description!),
           name,
-          this.Resolve(symbol, name)
+          this.Resolve(symbol, name),
         );
       }
     }
@@ -56,7 +56,7 @@ export class IoCContainer {
 
   public async Resolve<T>(
     ctor: IoCServiceConstructor<T>,
-    name: string
+    name: string,
   ): Promise<T>;
 
   public async Resolve<T>(symbol: symbol): Promise<T>;
@@ -65,7 +65,7 @@ export class IoCContainer {
 
   public async Resolve<T>(
     ctorSymbol: IoCServiceConstructor<T> | symbol,
-    name?: string
+    name?: string,
   ): Promise<T> {
     let [symbol] = [ctorSymbol as symbol];
 
@@ -77,7 +77,7 @@ export class IoCContainer {
 
     if (!this.services.get(symbol)!.has(name)) {
       throw new Deno.errors.NotFound(
-        `No Service for symbol '${symbol.description}' with name '${name}' has been registered.`
+        `No Service for symbol '${symbol.description}' with name '${name}' has been registered.`,
       );
     }
 
@@ -96,34 +96,66 @@ export class IoCContainer {
 
   public Register<T>(
     clazz: IoCServiceConstructor<T>,
-    options?: IoCServiceOptions
+    options?: IoCServiceOptions,
+  ): void | (() => void);
+
+  public Register<T>(
+    instance: IoCServiceResolver<T>,
+    options?: IoCServiceOptions,
   ): void | (() => void);
 
   public Register<T>(
     clazz: IoCServiceConstructor<T>,
     instance: IoCServiceResolver<T>,
-    options?: IoCServiceOptions
+    options?: IoCServiceOptions,
   ): void | (() => void);
 
   public Register<T>(
-    clazz: IoCServiceConstructor<T>,
+    clazzInstance: IoCServiceConstructor<T> | IoCServiceResolver<T>,
     instanceOptions?: IoCServiceResolver<T> | IoCServiceOptions,
-    options?: IoCServiceOptions
+    options?: IoCServiceOptions,
   ): void | (() => void) {
-    let [instance] = [instanceOptions as IoCServiceResolver<T>];
+    let [clazz, instance] = [
+      clazzInstance as IoCServiceConstructor<T>,
+      instanceOptions as IoCServiceResolver<T>,
+    ];
 
-    if (typeof instanceOptions !== 'function') {
-      options = instanceOptions as IoCServiceOptions;
+    if (clazzInstance.name) {
+      clazz = clazzInstance as IoCServiceConstructor<T>;
 
       instance = (_ioc) =>
         options?.Lazy
           ? new Promise<T>((resolve) => {
-              queueMicrotask(() => resolve(new clazz()));
-            })
+            queueMicrotask(() => resolve(new clazz()));
+          })
           : new clazz();
+
+      if (typeof instanceOptions !== 'function') {
+        options = instanceOptions as IoCServiceOptions;
+      } else {
+        instance = instanceOptions as IoCServiceResolver<T>;
+      }
+
+      if (!options) {
+        options = (instanceOptions as IoCServiceOptions) || {};
+      }
+
+      if (!options.Type) {
+        options.Type = this.Symbol(clazz.name);
+      }
+    } else {
+      instance = clazzInstance as IoCServiceResolver<T>;
+
+      options = instanceOptions as IoCServiceOptions;
     }
 
-    const symbol = options?.Type || this.Symbol(clazz.name);
+    const symbol = options?.Type;
+
+    if (!symbol) {
+      throw new Deno.errors.NotFound(
+        `The Type was missing for the registration.`,
+      );
+    }
 
     const name = options?.Name || '$default';
 
@@ -141,7 +173,7 @@ export class IoCContainer {
       this.RegisterDirect(
         symbol,
         name,
-        instance(this) as IoCServiceConstructed
+        instance(this) as IoCServiceConstructed,
       );
 
       return () => scope.abort();
@@ -149,7 +181,7 @@ export class IoCContainer {
       this.RegisterDirect(
         symbol,
         name,
-        instance(this) as IoCServiceConstructed
+        instance(this) as IoCServiceConstructed,
       );
     }
   }
@@ -157,7 +189,7 @@ export class IoCContainer {
   public RegisterDirect(
     symbol: symbol,
     name: string,
-    instance: IoCServiceConstructed
+    instance: IoCServiceConstructed,
   ): void | (() => void) {
     this.services.get(symbol)!.set(name, instance);
   }
