@@ -43,7 +43,11 @@ export class IoCContainer {
       for (const symBank of this.services.get(symbol)!) {
         const [name] = symBank;
 
-        await ioc.RegisterDirect(ioc.Symbol(symbol.description!), name, this.Resolve(symbol, name));
+        await ioc.RegisterDirect(
+          ioc.Symbol(symbol.description!),
+          name,
+          this.Resolve(symbol, name)
+        );
       }
     }
   }
@@ -52,7 +56,7 @@ export class IoCContainer {
 
   public async Resolve<T>(
     ctor: IoCServiceConstructor<T>,
-    name: string,
+    name: string
   ): Promise<T>;
 
   public async Resolve<T>(symbol: symbol): Promise<T>;
@@ -61,7 +65,7 @@ export class IoCContainer {
 
   public async Resolve<T>(
     ctorSymbol: IoCServiceConstructor<T> | symbol,
-    name?: string,
+    name?: string
   ): Promise<T> {
     let [symbol] = [ctorSymbol as symbol];
 
@@ -73,7 +77,7 @@ export class IoCContainer {
 
     if (!this.services.get(symbol)!.has(name)) {
       throw new Deno.errors.NotFound(
-        `No Service for symbol '${symbol.description}' with name '${name}' has been registered.`,
+        `No Service for symbol '${symbol.description}' with name '${name}' has been registered.`
       );
     }
 
@@ -92,19 +96,19 @@ export class IoCContainer {
 
   public Register<T>(
     clazz: IoCServiceConstructor<T>,
-    options?: IoCServiceOptions,
+    options?: IoCServiceOptions
   ): void | (() => void);
 
   public Register<T>(
     clazz: IoCServiceConstructor<T>,
     instance: IoCServiceResolver<T>,
-    options?: IoCServiceOptions,
+    options?: IoCServiceOptions
   ): void | (() => void);
 
   public Register<T>(
     clazz: IoCServiceConstructor<T>,
     instanceOptions?: IoCServiceResolver<T> | IoCServiceOptions,
-    options?: IoCServiceOptions,
+    options?: IoCServiceOptions
   ): void | (() => void) {
     let [instance] = [instanceOptions as IoCServiceResolver<T>];
 
@@ -114,8 +118,8 @@ export class IoCContainer {
       instance = (_ioc) =>
         options?.Lazy
           ? new Promise<T>((resolve) => {
-            return resolve(new clazz());
-          })
+              queueMicrotask(() => resolve(new clazz()));
+            })
           : new clazz();
     }
 
@@ -127,9 +131,6 @@ export class IoCContainer {
       this.RegisterDirect(symbol, name, () => {
         return instance(this) as IoCServiceConstructed;
       });
-      // this.services.get(symbol)!.set(name, () => {
-      //   return instance(this) as IoCServiceConstructed;
-      // });
     } else if (options?.Lifetime === 'scoped') {
       const scope = new AbortController();
 
@@ -140,29 +141,23 @@ export class IoCContainer {
       this.RegisterDirect(
         symbol,
         name,
-        instance(this) as IoCServiceConstructed,
+        instance(this) as IoCServiceConstructed
       );
-      // this.services
-      //   .get(symbol)!
-      //   .set(name, instance(this) as IoCServiceConstructed);
 
       return () => scope.abort();
     } else {
       this.RegisterDirect(
         symbol,
         name,
-        instance(this) as IoCServiceConstructed,
+        instance(this) as IoCServiceConstructed
       );
-      // this.services
-      //   .get(symbol)!
-      //   .set(name, instance(this) as IoCServiceConstructed);
     }
   }
 
   public RegisterDirect(
     symbol: symbol,
     name: string,
-    instance: IoCServiceConstructed,
+    instance: IoCServiceConstructed
   ): void | (() => void) {
     this.services.get(symbol)!.set(name, instance);
   }

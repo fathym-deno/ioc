@@ -147,15 +147,15 @@ Deno.test('IoC Workbench', async (t) => {
     const ioc = new IoCContainer();
 
     ioc.Register(TestDefaultClass, {
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World');
     assertInstanceOf(test, TestDefaultClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World');
     assertInstanceOf(testb, TestDefaultClass);
@@ -167,15 +167,15 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestDefaultClass, {
       Lifetime: 'transient',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World');
     assertInstanceOf(test, TestDefaultClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World');
     assertInstanceOf(testb, TestDefaultClass);
@@ -187,15 +187,15 @@ Deno.test('IoC Workbench', async (t) => {
 
     const iocScope = ioc.Register(TestDefaultClass, {
       Lifetime: 'scoped',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     })!;
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World');
     assertInstanceOf(test, TestDefaultClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World');
     assertInstanceOf(testb, TestDefaultClass);
@@ -205,7 +205,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -218,15 +218,15 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestDefaultClass, {
       Lazy: true,
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World');
     assertInstanceOf(test, TestDefaultClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World');
     assertInstanceOf(testb, TestDefaultClass);
@@ -239,15 +239,15 @@ Deno.test('IoC Workbench', async (t) => {
     ioc.Register(TestDefaultClass, {
       Lazy: true,
       Lifetime: 'transient',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World');
     assertInstanceOf(test, TestDefaultClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World');
     assertInstanceOf(testb, TestDefaultClass);
@@ -260,15 +260,15 @@ Deno.test('IoC Workbench', async (t) => {
     const iocScope = ioc.Register(TestDefaultClass, {
       Lazy: true,
       Lifetime: 'scoped',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     })!;
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World');
     assertInstanceOf(test, TestDefaultClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World');
     assertInstanceOf(testb, TestDefaultClass);
@@ -278,7 +278,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -434,11 +434,11 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestDefaultClass, {
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -446,7 +446,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestDefaultClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -461,11 +461,11 @@ Deno.test('IoC Workbench', async (t) => {
     ioc.Register(TestDefaultClass, {
       Lifetime: 'transient',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -473,7 +473,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestDefaultClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -488,11 +488,11 @@ Deno.test('IoC Workbench', async (t) => {
     const iocScope = ioc.Register(TestDefaultClass, {
       Lifetime: 'scoped',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     })!;
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -500,7 +500,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestDefaultClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -512,7 +512,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass')), 'test';
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass)), 'test';
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -526,11 +526,11 @@ Deno.test('IoC Workbench', async (t) => {
     ioc.Register(TestDefaultClass, {
       Lazy: true,
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -538,7 +538,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestDefaultClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -554,11 +554,11 @@ Deno.test('IoC Workbench', async (t) => {
       Lazy: true,
       Lifetime: 'transient',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -566,7 +566,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestDefaultClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -582,11 +582,11 @@ Deno.test('IoC Workbench', async (t) => {
       Lazy: true,
       Lifetime: 'scoped',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     })!;
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -594,7 +594,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestDefaultClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -606,7 +606,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -762,15 +762,15 @@ Deno.test('IoC Workbench', async (t) => {
     const ioc = new IoCContainer();
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World2');
     assertInstanceOf(test, TestParamsClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World2');
     assertInstanceOf(testb, TestParamsClass);
@@ -782,15 +782,15 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
       Lifetime: 'transient',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World2');
     assertInstanceOf(test, TestParamsClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World2');
     assertInstanceOf(testb, TestParamsClass);
@@ -805,16 +805,16 @@ Deno.test('IoC Workbench', async (t) => {
       () => new TestParamsClass('World2'),
       {
         Lifetime: 'scoped',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World2');
     assertInstanceOf(test, TestParamsClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World2');
     assertInstanceOf(testb, TestParamsClass);
@@ -824,7 +824,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -837,15 +837,15 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
       Lazy: true,
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World2');
     assertInstanceOf(test, TestParamsClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World2');
     assertInstanceOf(testb, TestParamsClass);
@@ -858,15 +858,15 @@ Deno.test('IoC Workbench', async (t) => {
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
       Lazy: true,
       Lifetime: 'transient',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World2');
     assertInstanceOf(test, TestParamsClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World2');
     assertInstanceOf(testb, TestParamsClass);
@@ -882,16 +882,16 @@ Deno.test('IoC Workbench', async (t) => {
       {
         Lazy: true,
         Lifetime: 'scoped',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
-    const test = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const test = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(test.Hello, 'World2');
     assertInstanceOf(test, TestParamsClass);
 
-    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testb = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testb.Hello, 'World2');
     assertInstanceOf(testb, TestParamsClass);
@@ -901,7 +901,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -1065,11 +1065,11 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1077,7 +1077,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestParamsClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1092,11 +1092,11 @@ Deno.test('IoC Workbench', async (t) => {
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
       Lifetime: 'transient',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1104,7 +1104,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestParamsClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1122,12 +1122,12 @@ Deno.test('IoC Workbench', async (t) => {
       {
         Lifetime: 'scoped',
         Name: 'test',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1135,7 +1135,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestParamsClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1147,7 +1147,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -1161,11 +1161,11 @@ Deno.test('IoC Workbench', async (t) => {
     ioc.Register(TestParamsClass, () => new TestParamsClass('World2'), {
       Lazy: true,
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1173,7 +1173,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestParamsClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1189,11 +1189,11 @@ Deno.test('IoC Workbench', async (t) => {
       Lazy: true,
       Lifetime: 'transient',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1201,7 +1201,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestParamsClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1220,12 +1220,12 @@ Deno.test('IoC Workbench', async (t) => {
         Lazy: true,
         Lifetime: 'scoped',
         Name: 'test',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
     const test = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1233,7 +1233,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(test, TestParamsClass);
 
     const testb = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1245,7 +1245,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -1263,12 +1263,12 @@ Deno.test('IoC Workbench', async (t) => {
     });
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World4'), {
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World5'), {
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
@@ -1284,13 +1284,13 @@ Deno.test('IoC Workbench', async (t) => {
     assertEquals(testName.Hello, 'World3');
     assertInstanceOf(testName, TestParamsClass);
 
-    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testSymbol.Hello, 'World4');
     assertInstanceOf(testSymbol, TestParamsClass);
 
     const testSymbolName = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1340,13 +1340,13 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World4'), {
       Lifetime: 'transient',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     ioc.Register(TestParamsClass, () => new TestParamsClass('World5'), {
       Lifetime: 'transient',
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
@@ -1362,13 +1362,13 @@ Deno.test('IoC Workbench', async (t) => {
     assertEquals(testName.Hello, 'World3');
     assertInstanceOf(testName, TestParamsClass);
 
-    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testSymbol.Hello, 'World4');
     assertInstanceOf(testSymbol, TestParamsClass);
 
     const testSymbolName = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1428,7 +1428,7 @@ Deno.test('IoC Workbench', async (t) => {
       () => new TestParamsClass('World4'),
       {
         Lifetime: 'scoped',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
@@ -1438,7 +1438,7 @@ Deno.test('IoC Workbench', async (t) => {
       {
         Lifetime: 'scoped',
         Name: 'test',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
@@ -1455,13 +1455,13 @@ Deno.test('IoC Workbench', async (t) => {
     assertEquals(testName.Hello, 'World3');
     assertInstanceOf(testName, TestParamsClass);
 
-    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testSymbol.Hello, 'World4');
     assertInstanceOf(testSymbol, TestParamsClass);
 
     const testSymbolName = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1507,8 +1507,8 @@ Deno.test('IoC Workbench', async (t) => {
     );
 
     await ioc.Resolve<TestParamsClass>(TestParamsClass, 'test');
-    await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
-    await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+    await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
+    await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
 
     testNameScope();
 
@@ -1521,27 +1521,27 @@ Deno.test('IoC Workbench', async (t) => {
       'The scoped instance was not destroyed.'
     );
 
-    await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
-    await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+    await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
+    await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
 
     testSymbolScope();
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
       Deno.errors.NotFound,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
 
-    await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+    await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
 
     testSymbolNameScope();
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'), 'test');
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -1564,7 +1564,7 @@ Deno.test('IoC Workbench', async (t) => {
       () => new TestParamsClass('World4'),
       {
         Lifetime: 'scoped',
-        Type: ioc.Symbol('ITestClass'),
+        Type: ioc.Symbol($ITestClass),
       }
     )!;
 
@@ -1581,7 +1581,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertEquals(testName.Hello, 'World3');
     assertInstanceOf(testName, TestParamsClass);
 
-    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
     assertEquals(testSymbol.Hello, 'World4');
     assertInstanceOf(testSymbol, TestParamsClass);
@@ -1604,7 +1604,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     await assertThrowsAsync(
       async () => {
-        await ioc.Resolve<ITestClass>(ioc.Symbol('ITestClass'));
+        await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
       Deno.errors.NotFound,
       'No Service for symbol',
@@ -1644,40 +1644,34 @@ Deno.test('IoC Workbench', async (t) => {
 
     ioc.Register(TestDefaultClass, () => new TestDefaultClass(), {
       Name: 'test',
-      Type: ioc.Symbol('ITestClass'),
+      Type: ioc.Symbol($ITestClass),
     });
 
     iocB.Register(TestParamsClass, () => new TestParamsClass('WorldB'), {
       Name: 'test',
-      Type: iocB.Symbol('ITestClass'),
+      Type: iocB.Symbol($ITestClass),
     });
 
     iocB.Register(TestParamsClass, () => new TestParamsClass('World2B'), {
       Name: 'test2',
-      Type: iocB.Symbol('ITestClass'),
+      Type: iocB.Symbol($ITestClass),
     });
 
     iocB.CopyTo(ioc);
 
-    const testDef = await ioc.Resolve<TestDefaultClass>(TestDefaultClass);
+    const testDef = await ioc.Resolve(TestDefaultClass);
 
     assertEquals(testDef.Hello, 'World');
     assertInstanceOf(testDef, TestDefaultClass);
 
-    const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
+    const test = await ioc.Resolve(TestParamsClass);
 
     assertEquals(test.Hello, 'WorldB');
     assertInstanceOf(test, TestParamsClass);
 
-    const testName = await ioc.Resolve<TestParamsClass>(
-      TestParamsClass,
-      'test'
-    );
+    const testName = await ioc.Resolve(TestParamsClass, 'test');
 
-    const testName2 = await ioc.Resolve<TestParamsClass>(
-      TestParamsClass,
-      'test'
-    );
+    const testName2 = await ioc.Resolve(TestParamsClass, 'test');
 
     assertEquals(testName.Hello, 'WorldB');
     assertEquals(testName2.Hello, 'WorldB');
@@ -1685,7 +1679,7 @@ Deno.test('IoC Workbench', async (t) => {
     assert(testName === testName2, 'The singleto instance is clashing.');
 
     const testSymbolName = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test'
     );
 
@@ -1693,7 +1687,7 @@ Deno.test('IoC Workbench', async (t) => {
     assertInstanceOf(testSymbolName, TestParamsClass);
 
     const test2SymbolName = await ioc.Resolve<ITestClass>(
-      ioc.Symbol('ITestClass'),
+      ioc.Symbol($ITestClass),
       'test2'
     );
 
@@ -1702,6 +1696,7 @@ Deno.test('IoC Workbench', async (t) => {
   });
 });
 
+export const $ITestClass = 'ITestClass';
 export interface ITestClass {
   Hello: string;
 }
