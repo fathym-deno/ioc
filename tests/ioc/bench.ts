@@ -1201,6 +1201,51 @@ Deno.test('IoC Workbench', async (t) => {
     );
   });
 
+  // await t.step('Clash Checks - Singletons - Params', async () => {
+  //   const ioc = new IoCContainer();
+
+  //   ioc.Register(TestParamsClass, () => new TestParamsClass('World2'));
+
+  //   ioc.Register(TestParamsClass, () => new TestParamsClass('World3'), {
+  //     Name: 'test',
+  //   });
+
+  //   ioc.Register(() => new TestParamsClass('World4'), {
+  //     Type: ioc.Symbol($ITestClass),
+  //   });
+
+  //   ioc.Register(() => new TestParamsClass('World5'), {
+  //     Name: 'test',
+  //     Type: ioc.Symbol($ITestClass),
+  //   });
+
+  //   const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
+
+  //   assertEquals(test.Hello, 'World2');
+  //   assertInstanceOf(test, TestParamsClass);
+
+  //   const testName = await ioc.Resolve<TestParamsClass>(
+  //     TestParamsClass,
+  //     'test'
+  //   );
+
+  //   assertEquals(testName.Hello, 'World3');
+  //   assertInstanceOf(testName, TestParamsClass);
+
+  //   const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
+
+  //   assertEquals(testSymbol.Hello, 'World4');
+  //   assertInstanceOf(testSymbol, TestParamsClass);
+
+  //   const testSymbolName = await ioc.Resolve<ITestClass>(
+  //     ioc.Symbol($ITestClass),
+  //     'test'
+  //   );
+
+  //   assertEquals(testSymbolName.Hello, 'World5');
+  //   assertInstanceOf(testSymbolName, TestParamsClass);
+  // });
+
   await t.step('Clash Checks - Singletons - Params', async () => {
     const ioc = new IoCContainer();
 
