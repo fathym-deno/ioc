@@ -1621,6 +1621,85 @@ Deno.test('IoC Workbench', async (t) => {
     assert(test !== testNameB);
     assert(testName !== testNameB);
   });
+
+  await t.step('CopyTo', async () => {
+    const ioc = new IoCContainer();
+
+    const iocB = new IoCContainer();
+
+    ioc.Register(TestDefaultClass, () => new TestDefaultClass());
+
+    ioc.Register(TestParamsClass, () => new TestParamsClass('WorldA'));
+
+    iocB.Register(TestParamsClass, () => new TestParamsClass('WorldB'));
+
+    ioc.Register(TestParamsClass, () => new TestParamsClass('WorldA'), {
+      Lifetime: 'transient',
+      Name: 'test',
+    });
+
+    iocB.Register(TestParamsClass, () => new TestParamsClass('WorldB'), {
+      Name: 'test',
+    });
+
+    ioc.Register(TestDefaultClass, () => new TestDefaultClass(), {
+      Name: 'test',
+      Type: ioc.Symbol('ITestClass'),
+    });
+
+    iocB.Register(TestParamsClass, () => new TestParamsClass('WorldB'), {
+      Name: 'test',
+      Type: iocB.Symbol('ITestClass'),
+    });
+
+    iocB.Register(TestParamsClass, () => new TestParamsClass('World2B'), {
+      Name: 'test2',
+      Type: iocB.Symbol('ITestClass'),
+    });
+
+    iocB.CopyTo(ioc);
+
+    const testDef = await ioc.Resolve<TestDefaultClass>(TestDefaultClass);
+
+    assertEquals(testDef.Hello, 'World');
+    assertInstanceOf(testDef, TestDefaultClass);
+
+    const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
+
+    assertEquals(test.Hello, 'WorldB');
+    assertInstanceOf(test, TestParamsClass);
+
+    const testName = await ioc.Resolve<TestParamsClass>(
+      TestParamsClass,
+      'test'
+    );
+
+    const testName2 = await ioc.Resolve<TestParamsClass>(
+      TestParamsClass,
+      'test'
+    );
+
+    assertEquals(testName.Hello, 'WorldB');
+    assertEquals(testName2.Hello, 'WorldB');
+    assertInstanceOf(testName, TestParamsClass);
+    assert(testName === testName2, 'The singleto instance is clashing.');
+
+    const testSymbolName = await ioc.Resolve<ITestClass>(
+      ioc.Symbol('ITestClass'),
+      'test'
+    );
+
+    assertEquals(testSymbolName.Hello, 'WorldB');
+    assertInstanceOf(testSymbolName, TestParamsClass);
+
+    const test2SymbolName = await ioc.Resolve<ITestClass>(
+      ioc.Symbol('ITestClass'),
+      'test2'
+    );
+
+    assertEquals(test2SymbolName.Hello, 'World2B');
+    assertInstanceOf(test2SymbolName, TestParamsClass);
+  });
 });
 
 export interface ITestClass {

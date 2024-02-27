@@ -36,6 +36,18 @@ export class IoCContainer {
     this.symbols = new Map<string, symbol>();
   }
 
+  public async CopyTo(ioc: IoCContainer): Promise<void> {
+    for (const svc of this.services) {
+      const [symbol] = svc;
+
+      for (const symBank of this.services.get(symbol)!) {
+        const [name] = symBank;
+
+        await ioc.RegisterDirect(ioc.Symbol(symbol.description!), name, this.Resolve(symbol, name));
+      }
+    }
+  }
+
   public async Resolve<T>(ctor: IoCServiceConstructor<T>): Promise<T>;
 
   public async Resolve<T>(
@@ -112,9 +124,12 @@ export class IoCContainer {
     const name = options?.Name || '$default';
 
     if (options?.Lifetime === 'transient') {
-      this.services.get(symbol)!.set(name, () => {
+      this.RegisterDirect(symbol, name, () => {
         return instance(this) as IoCServiceConstructed;
       });
+      // this.services.get(symbol)!.set(name, () => {
+      //   return instance(this) as IoCServiceConstructed;
+      // });
     } else if (options?.Lifetime === 'scoped') {
       const scope = new AbortController();
 
@@ -122,16 +137,34 @@ export class IoCContainer {
         this.services.get(symbol)!.delete(name);
       };
 
-      this.services
-        .get(symbol)!
-        .set(name, instance(this) as IoCServiceConstructed);
+      this.RegisterDirect(
+        symbol,
+        name,
+        instance(this) as IoCServiceConstructed,
+      );
+      // this.services
+      //   .get(symbol)!
+      //   .set(name, instance(this) as IoCServiceConstructed);
 
       return () => scope.abort();
     } else {
-      this.services
-        .get(symbol)!
-        .set(name, instance(this) as IoCServiceConstructed);
+      this.RegisterDirect(
+        symbol,
+        name,
+        instance(this) as IoCServiceConstructed,
+      );
+      // this.services
+      //   .get(symbol)!
+      //   .set(name, instance(this) as IoCServiceConstructed);
     }
+  }
+
+  public RegisterDirect(
+    symbol: symbol,
+    name: string,
+    instance: IoCServiceConstructed,
+  ): void | (() => void) {
+    this.services.get(symbol)!.set(name, instance);
   }
 
   public Symbol(id: string): symbol {
