@@ -36,17 +36,17 @@ export class IoCContainer {
     this.symbols = new Map<string, symbol>();
   }
 
-  public async CopyTo(ioc: IoCContainer): Promise<void> {
+  public CopyTo(ioc: IoCContainer): void {
     for (const svc of this.services) {
       const [symbol] = svc;
 
       for (const symBank of this.services.get(symbol)!) {
         const [name] = symBank;
 
-        await ioc.RegisterDirect(
+        ioc.RegisterDirect(
           ioc.Symbol(symbol.description!),
           name,
-          this.Resolve(symbol, name),
+          this.ResolveDirect(symbol, name),
         );
       }
     }
@@ -67,6 +67,23 @@ export class IoCContainer {
     ctorSymbol: IoCServiceConstructor<T> | symbol,
     name?: string,
   ): Promise<T> {
+    let svc = this.ResolveDirect(ctorSymbol, name);
+
+    if (typeof svc === 'function') {
+      svc = svc();
+    }
+
+    if (svc instanceof Promise) {
+      svc = await svc;
+    }
+
+    return svc as T;
+  }
+
+  public ResolveDirect<T>(
+    ctorSymbol: IoCServiceConstructor<T> | symbol,
+    name?: string,
+  ): IoCServiceResolutions {
     let [symbol] = [ctorSymbol as symbol];
 
     if (typeof ctorSymbol !== 'symbol') {
@@ -81,17 +98,7 @@ export class IoCContainer {
       );
     }
 
-    let svc = this.services.get(symbol)!.get(name)!;
-
-    if (typeof svc === 'function') {
-      svc = svc();
-    }
-
-    if (svc instanceof Promise) {
-      svc = await svc;
-    }
-
-    return svc as T;
+    return this.services.get(symbol)!.get(name)!;
   }
 
   public Register<T>(
