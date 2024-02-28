@@ -69,7 +69,7 @@ export class IoCContainer {
   ): Promise<T> {
     let svc = this.ResolveDirect(ctorSymbol, name);
 
-    if (typeof svc === 'function') {
+    if (typeof svc === 'function' && !svc.name) {
       svc = svc();
     }
 
