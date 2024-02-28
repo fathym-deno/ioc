@@ -3,7 +3,7 @@ import {
   assert,
   assertEquals,
   assertInstanceOf,
-  assertThrowsAsync,
+  assertRejects,
 } from '../test.deps.ts';
 
 Deno.test('IoC Workbench', async (t) => {
@@ -63,7 +63,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestDefaultClass);
       },
@@ -133,7 +133,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestDefaultClass);
       },
@@ -203,7 +203,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
@@ -276,7 +276,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
@@ -346,7 +346,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestDefaultClass, 'test');
       },
@@ -419,7 +419,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestDefaultClass, 'test');
       },
@@ -501,7 +501,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass)), 'test';
       },
@@ -586,7 +586,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
@@ -656,7 +656,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestParamsClass);
       },
@@ -730,7 +730,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestParamsClass);
       },
@@ -800,7 +800,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
@@ -873,7 +873,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
@@ -947,7 +947,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestParamsClass, 'test');
       },
@@ -1024,7 +1024,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestParamsClass, 'test');
       },
@@ -1106,7 +1106,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
@@ -1191,7 +1191,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     iocScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
@@ -1201,50 +1201,50 @@ Deno.test('IoC Workbench', async (t) => {
     );
   });
 
-  // await t.step('Clash Checks - Singletons - Params', async () => {
-  //   const ioc = new IoCContainer();
+  await t.step('Clash Checks - Singletons - Params', async () => {
+    const ioc = new IoCContainer();
 
-  //   ioc.Register(TestParamsClass, () => new TestParamsClass('World2'));
+    ioc.Register(TestParamsClass, () => new TestParamsClass('World2'));
 
-  //   ioc.Register(TestParamsClass, () => new TestParamsClass('World3'), {
-  //     Name: 'test',
-  //   });
+    ioc.Register(TestParamsClass, () => new TestParamsClass('World3'), {
+      Name: 'test',
+    });
 
-  //   ioc.Register(() => new TestParamsClass('World4'), {
-  //     Type: ioc.Symbol($ITestClass),
-  //   });
+    ioc.Register(() => new TestParamsClass('World4'), {
+      Type: ioc.Symbol($ITestClass),
+    });
 
-  //   ioc.Register(() => new TestParamsClass('World5'), {
-  //     Name: 'test',
-  //     Type: ioc.Symbol($ITestClass),
-  //   });
+    ioc.Register(() => new TestParamsClass('World5'), {
+      Name: 'test',
+      Type: ioc.Symbol($ITestClass),
+    });
 
-  //   const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
+    const test = await ioc.Resolve<TestParamsClass>(TestParamsClass);
 
-  //   assertEquals(test.Hello, 'World2');
-  //   assertInstanceOf(test, TestParamsClass);
+    assertEquals(test.Hello, 'World2');
+    assertInstanceOf(test, TestParamsClass);
 
-  //   const testName = await ioc.Resolve<TestParamsClass>(
-  //     TestParamsClass,
-  //     'test'
-  //   );
+    const testName = await ioc.Resolve<TestParamsClass>(
+      TestParamsClass,
+      'test'
+    );
 
-  //   assertEquals(testName.Hello, 'World3');
-  //   assertInstanceOf(testName, TestParamsClass);
+    assertEquals(testName.Hello, 'World3');
+    assertInstanceOf(testName, TestParamsClass);
 
-  //   const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
+    const testSymbol = await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
 
-  //   assertEquals(testSymbol.Hello, 'World4');
-  //   assertInstanceOf(testSymbol, TestParamsClass);
+    assertEquals(testSymbol.Hello, 'World4');
+    assertInstanceOf(testSymbol, TestParamsClass);
 
-  //   const testSymbolName = await ioc.Resolve<ITestClass>(
-  //     ioc.Symbol($ITestClass),
-  //     'test'
-  //   );
+    const testSymbolName = await ioc.Resolve<ITestClass>(
+      ioc.Symbol($ITestClass),
+      'test'
+    );
 
-  //   assertEquals(testSymbolName.Hello, 'World5');
-  //   assertInstanceOf(testSymbolName, TestParamsClass);
-  // });
+    assertEquals(testSymbolName.Hello, 'World5');
+    assertInstanceOf(testSymbolName, TestParamsClass);
+  });
 
   await t.step('Clash Checks - Singletons - Params', async () => {
     const ioc = new IoCContainer();
@@ -1489,7 +1489,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     testScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestParamsClass);
       },
@@ -1504,7 +1504,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     testNameScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve(TestParamsClass, 'test');
       },
@@ -1518,7 +1518,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     testSymbolScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
@@ -1531,7 +1531,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     testSymbolNameScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
@@ -1590,7 +1590,7 @@ Deno.test('IoC Workbench', async (t) => {
 
     testSymbolScope();
 
-    await assertThrowsAsync(
+    await assertRejects(
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
