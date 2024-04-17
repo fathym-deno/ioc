@@ -26,9 +26,9 @@ export type IoCServices = Map<symbol, Map<string, IoCServiceResolutions>>;
 // export type ServiceResult<T extends ServiceConstructor> = T | Promise<T>;
 
 export class IoCContainer {
-  protected services: IoCServices;
+  public services: IoCServices;
 
-  protected symbols: Map<string, symbol>;
+  public symbols: Map<string, symbol>;
 
   constructor() {
     this.services = new Map<symbol, Map<string, IoCServiceResolutions>>();
