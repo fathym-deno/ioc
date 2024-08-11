@@ -1,11 +1,17 @@
 {
+  "name": "@fathym/ioc",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./mod.ts"
+  },
   "tasks": {
     "build": "deno task build:fmt && deno task build:lint && deno task build:mod",
     "build:mod": "deno run -A mod.ts build",
     "build:fmt": "deno fmt",
     "build:lint": "deno lint",
     "deploy": "deno task build && deno task test && ftm git",
-    "test": "deno test -A tests/tests.ts --parallel --coverage=cov"
+    "test": "deno test -A tests/tests.ts --parallel --coverage=cov",
+    "version": "deno run -A jsr:@fathym/common@0.0.205/version"
   },
   "imports": {},
   "lint": {
@@ -42,5 +48,6 @@
       "deno.unstable"
     ],
     "strict": true
-  }
+  },
+  "lock": false
 }
