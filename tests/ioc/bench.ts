@@ -67,7 +67,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestDefaultClass);
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -137,7 +137,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestDefaultClass);
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -207,7 +207,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -280,7 +280,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -350,7 +350,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestDefaultClass, 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -423,7 +423,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestDefaultClass, 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -505,7 +505,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass)), 'test';
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -590,7 +590,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -660,7 +660,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestParamsClass);
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -734,7 +734,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestParamsClass);
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -804,7 +804,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -877,7 +877,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -951,7 +951,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestParamsClass, 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1028,7 +1028,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestParamsClass, 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1110,7 +1110,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1195,7 +1195,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1493,7 +1493,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestParamsClass);
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1508,7 +1508,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve(TestParamsClass, 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1522,7 +1522,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1535,7 +1535,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass), 'test');
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );
@@ -1594,7 +1594,7 @@ Deno.test('IoC Workbench', async (t) => {
       async () => {
         await ioc.Resolve<ITestClass>(ioc.Symbol($ITestClass));
       },
-      Deno.errors.NotFound,
+      Error,
       'No Service for symbol',
       'The scoped instance was not destroyed.'
     );

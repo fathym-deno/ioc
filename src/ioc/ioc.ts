@@ -93,7 +93,7 @@ export class IoCContainer {
     name ??= '$default';
 
     if (!this.services.get(symbol)!.has(name)) {
-      throw new Deno.errors.NotFound(
+      throw new Error(
         `No Service for symbol '${symbol.description}' with name '${name}' has been registered.`,
       );
     }
@@ -159,7 +159,7 @@ export class IoCContainer {
     const symbol = options?.Type;
 
     if (!symbol) {
-      throw new Deno.errors.NotFound(
+      throw new Error(
         `The Type was missing for the registration.`,
       );
     }
