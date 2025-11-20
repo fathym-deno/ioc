@@ -9,11 +9,11 @@ Owners:
   - fathym
 References:
   - Label: Projects: Ref-Arch README
-    Path: ../README.md
+      Path: ../README.md
   - Label: Projects: Ref-Arch AGENTS
-    Path: ../AGENTS.md
+      Path: ../AGENTS.md
   - Label: Projects: Ref-Arch Guide
-    Path: ../GUIDE.md
+      Path: ../GUIDE.md
   - Label: Root README
     Path: ../../../README.md
   - Label: Root Agents Guide
@@ -33,7 +33,7 @@ providing simple registration/resolution with support for transient and scoped
 lifestyles.
 
 - **Goal:** deliver a minimal, ergonomic IoC container for internal libraries,
-  the CLI, and micro-apps.
+  the CLI, and micro-frameworks.
 - **Outputs:** container API, usage examples, and build/test scripts.
 - **Code location:** this folder currently hosts the source.
 

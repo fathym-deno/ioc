@@ -13,9 +13,9 @@ References:
   - Label: Project Agents Guide
     Path: ./AGENTS.md
   - Label: Projects: Ref-Arch README
-    Path: ../README.md
+      Path: ../README.md
   - Label: Projects: Ref-Arch Guide
-    Path: ../GUIDE.md
+      Path: ../GUIDE.md
   - Label: Root Workspace Guide
     Path: ../../../WORKSPACE_GUIDE.md
 ---
@@ -41,11 +41,12 @@ Use this playbook to keep IoC container work predictable and discoverable.
    needed) with frontmatter and links to upstream assumptions.
 3. **Capture provenance**: record upstream source, release channel, and version
    pins in `UPSTREAM.md` once publishing.
-4. **Validate behavior**: run `deno task test` for coverage; use `deno task
-   build` or `deno task deploy` before releases, and add/update smoke examples
-   as APIs evolve.
+4. **Validate behavior**: run `deno task test` for coverage; use
+   `deno task
+   build` or `deno task deploy` before releases, and add/update
+   smoke examples as APIs evolve.
 5. **Communicate changes**: document breaking changes with migration guidance
-   and notify consumers (CLI, other libraries, micro-apps).
+   and notify consumers (CLI, other libraries, micro-frameworks).
 
 ## Verification
 

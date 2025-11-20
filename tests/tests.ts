@@ -1,1 +1,1 @@
-import './ioc/bench.ts';
+import "./ioc/bench.ts";

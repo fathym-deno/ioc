@@ -13,11 +13,11 @@ References:
   - Label: Project Guide
     Path: ./GUIDE.md
   - Label: Projects: Ref-Arch README
-    Path: ../README.md
+      Path: ../README.md
   - Label: Projects: Ref-Arch AGENTS
-    Path: ../AGENTS.md
+      Path: ../AGENTS.md
   - Label: Projects: Ref-Arch Guide
-    Path: ../GUIDE.md
+      Path: ../GUIDE.md
   - Label: Root README
     Path: ../../../README.md
   - Label: Root Agents Guide
@@ -38,7 +38,7 @@ Guardrails for humans and AI collaborating on the Fathym IoC container.
    document-relative references back to parent guides.
 3. **API stability.** Avoid breaking registration/resolution semantics without
    migration notes; document changes that affect consumers (CLI, other
-   libraries, micro-apps).
+   libraries, micro-frameworks).
 4. **Provenance.** Capture upstream sources, release channels, and version pins
    in `UPSTREAM.md` when publishing; prefer upstream-first fixes before
    diverging.
@@ -49,5 +49,5 @@ Guardrails for humans and AI collaborating on the Fathym IoC container.
 
 - Declare intent before editing; summarize outcomes and next steps in the
   project README or a short log.
-- Link implementation branches and consumer pods when behavior changes to keep
-  dependencies aligned.
+- Link implementation branches and consumer pods (CLI, other libraries,
+  micro-frameworks) when behavior changes to keep dependencies aligned.
