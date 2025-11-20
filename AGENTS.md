@@ -32,22 +32,13 @@ Guardrails for humans and AI collaborating on the Fathym IoC container.
 
 ## Core Guardrails
 
-1. **Stay scoped.** Keep IoC work under `projects/ref-arch/ioc/` unless
-   coordinating with another pod; link cross-pod dependencies when they exist.
-2. **Frontmatter required.** Every Markdown doc uses frontmatter and
-   document-relative references back to parent guides.
-3. **API stability.** Avoid breaking registration/resolution semantics without
-   migration notes; document changes that affect consumers (CLI, other
-   libraries, micro-frameworks).
-4. **Provenance.** Capture upstream sources, release channels, and version pins
-   in `UPSTREAM.md` when publishing; prefer upstream-first fixes before
-   diverging.
-5. **Security & hygiene.** Do not include secrets in tests or docs; keep build
-   and test tasks reproducible.
+1. **Stay scoped.** Keep IoC work under `projects/ref-arch/ioc/` unless coordinating with another pod; link cross-pod dependencies when they exist.
+2. **Frontmatter required.** Every Markdown doc uses frontmatter and document-relative references back to parent guides.
+3. **API stability.** Avoid breaking registration/resolution semantics without migration notes; document changes that affect consumers (CLI, other libraries, micro-frameworks).
+4. **Provenance.** Capture upstream sources, release channels, and version pins in `UPSTREAM.md` when publishing; prefer upstream-first fixes before diverging.
+5. **Security & hygiene.** Do not include secrets in tests or docs; keep build and test tasks reproducible.
 
 ## Communication
 
-- Declare intent before editing; summarize outcomes and next steps in the
-  project README or a short log.
-- Link implementation branches and consumer pods (CLI, other libraries,
-  micro-frameworks) when behavior changes to keep dependencies aligned.
+- Declare intent before editing; summarize outcomes and next steps in the project README or a short log.
+- Link implementation branches and consumer pods (CLI, other libraries, micro-frameworks) when behavior changes to keep dependencies aligned.
