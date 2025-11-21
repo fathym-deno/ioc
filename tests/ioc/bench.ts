@@ -1,5 +1,10 @@
 import { IoCContainer } from "../../src/ioc/ioc.ts";
-import { assert, assertEquals, assertInstanceOf, assertRejects } from "../test.deps.ts";
+import {
+  assert,
+  assertEquals,
+  assertInstanceOf,
+  assertRejects,
+} from "../test.deps.ts";
 
 Deno.test("IoC Workbench", async (t) => {
   await t.step("Singleton - No Symbol - Unamed - Default", async () => {
