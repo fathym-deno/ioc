@@ -1,1 +1,1 @@
-export * from './ioc/.exports.ts';
+export * from "./ioc/.exports.ts";
