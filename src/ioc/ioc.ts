@@ -7,7 +7,7 @@ export type IoCServiceConstructor<T> = { new (...args: any[]): T };
 export type IoCServiceOptions = {
   Lazy?: boolean;
 
-  Lifetime?: "transient" | "scoped";
+  Lifetime?: 'transient' | 'scoped';
 
   Name?: string;
 
@@ -69,7 +69,7 @@ export class IoCContainer {
   ): Promise<T> {
     let svc = this.ResolveDirect(ctorSymbol, name);
 
-    if (typeof svc === "function" && !svc.name) {
+    if (typeof svc === 'function' && !svc.name) {
       svc = svc();
     }
 
@@ -86,11 +86,11 @@ export class IoCContainer {
   ): IoCServiceResolutions {
     let [symbol] = [ctorSymbol as symbol];
 
-    if (typeof ctorSymbol !== "symbol") {
+    if (typeof ctorSymbol !== 'symbol') {
       symbol = this.Symbol(ctorSymbol.name);
     }
 
-    name ??= "$default";
+    name ??= '$default';
 
     if (!this.services.get(symbol)!.has(name)) {
       throw new Error(
@@ -137,7 +137,7 @@ export class IoCContainer {
           })
           : new clazz();
 
-      if (typeof instanceOptions !== "function") {
+      if (typeof instanceOptions !== 'function') {
         options = instanceOptions as IoCServiceOptions;
       } else {
         instance = instanceOptions as IoCServiceResolver<T>;
@@ -164,13 +164,13 @@ export class IoCContainer {
       );
     }
 
-    const name = options?.Name || "$default";
+    const name = options?.Name || '$default';
 
-    if (options?.Lifetime === "transient") {
+    if (options?.Lifetime === 'transient') {
       this.RegisterDirect(symbol, name, () => {
         return instance(this) as IoCServiceConstructed;
       });
-    } else if (options?.Lifetime === "scoped") {
+    } else if (options?.Lifetime === 'scoped') {
       const scope = new AbortController();
 
       scope.signal.onabort = (_e) => {
