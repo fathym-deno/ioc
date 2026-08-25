@@ -1,6 +1,13 @@
 {
   "name": "@fathym/ioc",
   "version": "0.0.0",
+  // Consume freshly-published in-house deps without waiting out Deno 2.9's default 24h
+  // minimumDependencyAge supply-chain gate. This is needed even where no SOURCE file
+  // imports the dep: the universal "version" task runs
+  // `deno run -A jsr:@fathym/common@<fresh>/build/version`, and that resolution is what
+  // the gate blocks -- so the CI failure lands on `deno task version`, not on a build.
+  // Already the house default in 29 sibling repos.
+  "minimumDependencyAge": "0",
   "exports": {
     ".": "./mod.ts"
   },
